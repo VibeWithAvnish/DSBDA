@@ -1,0 +1,125 @@
+!pip install bs4
+     
+Collecting bs4
+  Downloading bs4-0.0.2-py2.py3-none-any.whl (1.2 kB)
+Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.10/dist-packages (from bs4) (4.12.3)
+Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.10/dist-packages (from beautifulsoup4->bs4) (2.5)
+Installing collected packages: bs4
+Successfully installed bs4-0.0.2
+
+!pip install requests
+     
+Requirement already satisfied: requests in /usr/local/lib/python3.10/dist-packages (2.31.0)
+Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.10/dist-packages (from requests) (3.3.2)
+Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.10/dist-packages (from requests) (3.7)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests) (2.0.7)
+Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests) (2024.2.2)
+
+from bs4 import BeautifulSoup as bs
+import requests
+import pandas as pd
+     
+
+URL = "https://www.amazon.in/Apple-iPhone-14-128GB-Midnight/product-reviews/B0BDHX8Z63/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=a"
+     
+
+HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"}
+     
+
+webpage = requests.get(URL,HEADERS)
+webpage
+     
+<Response [200]>
+
+type(webpage.content)
+     
+bytes
+
+webpage.content
+names = soup.find_all('span',class_='a-profile-name')
+names
+     
+[<span class="a-profile-name">Prasanna</span>,
+ <span class="a-profile-name">Placeholder</span>,
+ <span class="a-profile-name">Prasanna</span>,
+ <span class="a-profile-name">Vaishnavi Nelabotla</span>,
+ <span class="a-profile-name">Vaishnavi Nelabotla</span>,
+ <span class="a-profile-name">Jayakrishnan</span>,
+ <span class="a-profile-name">Marvellous </span>,
+ <span class="a-profile-name">Marvellous </span>,
+ <span class="a-profile-name">Hariharan Balakrishnan</span>,
+ <span class="a-profile-name">Amazon Customer</span>,
+ <span class="a-profile-name">Phone is absolutely perfect </span>,
+ <span class="a-profile-name">Unique</span>,
+ <span class="a-profile-name">MWO SK SINGH</span>,
+ <span class="a-profile-name">Ranjith</span>]
+
+cust_name = []
+for i in range(len(names)):
+  cust_name.append(names[i].get_text())
+cust_name
+     
+['Prasanna',
+ 'Placeholder',
+ 'Prasanna',
+ 'Vaishnavi Nelabotla',
+ 'Vaishnavi Nelabotla',
+ 'Jayakrishnan',
+ 'Marvellous ',
+ 'Marvellous ',
+ 'Hariharan Balakrishnan',
+ 'Amazon Customer',
+ 'Phone is absolutely perfect ',
+ 'Unique',
+ 'MWO SK SINGH',
+ 'Ranjith']
+
+title = soup.find_all('a',class_='review-title-content')
+title
+     
+[<a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R3QN7WHCT1NEQA?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>Exceeding my expectation. Go for it.</span>
+ </a>,
+ <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R30Q0WNRQPM0PW?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>Loved it ❤️</span>
+ </a>,
+ <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R26S7FGQM0SOKO?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-4 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">4.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>It's visually appealing and upgraded device, surpassing my old iPhone 12</span>
+ </a>,
+ <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1Z2UDP5DZXS2F?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>Iphone 14</span>
+ </a>,
+ <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1YGY33MLHE4C7?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>Worthy gift for better half</span>
+ </a>,
+ <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1U1QE8CCFN4O4?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>Excellent product</span>
+ </a>,
+ <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1PDHLRJSMAQIF?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>Be care full when package received</span>
+ </a>,
+ <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1XJEZKH9GYPMR?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-4 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">4.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>Performance is good but battery performance</span>
+ </a>,
+ <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R30MKJNPTNZN09?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-4 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">4.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>Review</span>
+ </a>,
+ <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R2Q3KCLUQ7X3CV?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-4 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">4.0 out of 5 stars</span></i><span class="a-letter-space"></span>
+ <span>Apple product. That's all</span>
+ </a>]
+
+review_title = []
+for i in range(0,len(title)):
+  review_title.append(title[i].get_text())
+review_title
+     
+['5.0 out of 5 stars\nExceeding my expectation. Go for it.\n',
+ '5.0 out of 5 stars\nLoved it ❤️\n',
+ "4.0 out of 5 stars\nIt's visually appealing and upgraded device, surpassing my old iPhone 12\n",
+ '5.0 out of 5 stars\nIphone 14\n',
+ '5.0 out of 5 stars\nWorthy gift for better half\n',
+ '5.0 out of 5 stars\nExcellent product\n',
+ '5.0 out of 5 stars\nBe care full when package received\n',
+ '4.0 out of 5 stars\nPerformance is good but battery performance\n',
+ '4.0 out of 5 stars\nReview\n',
+ "4.0 out of 5 stars\nApple product. That's all\n"]
