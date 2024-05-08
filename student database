@@ -1,0 +1,46 @@
+-- Create Database
+CREATE DATABASE IF NOT EXISTS student_info_system;
+
+-- Use Database
+USE student_info_system;
+
+-- Create Table 1 (Students)
+CREATE TABLE IF NOT EXISTS students (
+    stu_id INT,
+    stu_name STRING,
+    stu_branch STRING
+);
+
+-- Create Table 2 (Subject Marks)
+CREATE TABLE IF NOT EXISTS subject_marks (
+    stu_id INT,
+    subject STRING,
+    marks INT
+);
+
+-- Alter Table 1 (Add Column)
+ALTER TABLE students ADD COLUMN stu_age INT;
+
+-- Alter Table 2 (Rename Table)
+ALTER TABLE subject_marks RENAME TO subject_scores;
+
+
+-- Load Data into Table 1 (Students)
+LOAD DATA LOCAL INPATH '/path/to/students_data.csv' INTO TABLE students;
+
+-- Load Data into Table 2 (Subject Scores)
+LOAD DATA LOCAL INPATH '/path/to/subject_scores_data.csv' INTO TABLE subject_scores;
+
+
+-- Perform Inner Join
+SELECT s.stu_id, s.stu_name, s.stu_branch, ss.subject, ss.marks
+FROM students s
+JOIN subject_scores ss
+ON s.stu_id = ss.stu_id;
+
+-- Filter Students with Marks > 80
+SELECT s.stu_id, s.stu_name, s.stu_branch, ss.subject, ss.marks
+FROM students s
+JOIN subject_scores ss
+ON s.stu_id = ss.stu_id
+WHERE ss.marks > 80;
