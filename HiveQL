@@ -1,0 +1,41 @@
+In cloudera, type : $hive
+1.	create database mydb2;
+2.	use mydb2;
+3.	create table flight(fno int, year int, dest varchar(10), delay float);
+4.	alter table flight rename to air_flight;
+5.	alter table air_flight add columns(source varchar(10));
+6.	drop table flight;
+7.	desc air_flight;
+8.	create table flight(fno int, year int, dest varchar(10), delay float)
+>row format delimited
+>fields terminated by ','
+>lines terminated by '\n'
+>stored as textfile;
+9.	insert into flight values(123, 2009, "mumbai", 30.6);
+10.	select * from flight;
+create txt file - > open terminal : gedit
+$gedit f.txt 
+>123, 2009, navi mumbai, 60.0
+pwd -> ls -> f.txt
+in terminal
+>load data local inpath "f.txt"
+>overwrite into table flight;
+>select * from flight;
+create another table
+	create table nflight(fno int, year int, dest varchar(10), delay float)
+>row format delimited
+>fields terminated by ','
+>lines terminated by '\n'
+>stored as textfile;
+select * from nflight;
+insert into nflight values(125, 2009, "pune", 41.6);
+
+Join
+	>select a.fno, a.year, a.dest, a.delay, b.source
+	>from flight a join nflight b
+	>on(a.fno=b.fno);
+index
+	>create index flight_index on table flight(fno)
+	>as 'org.apache.hadoop.hive.ql.index.compact.CompactIndexHandler'
+	>WITH DEFERRED REBUILD;
+>show tables;
