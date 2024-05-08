@@ -1,80 +1,116 @@
-heart:      https://www.kaggle.com/datasets/pritsheta/heart-attack
-
-#CODE
-
-import numpy as np
-import pandas as pd
-import seaborn as sns
-import matplotlib.pylot as plt
-from sklearn.linear_model import LogisticRegression
+import numpy as np 
+import pandas as pd 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+from sklearn.linear_model import LogisticRegression 
 from sklearn.model_selection import train_test_split
-
-df = pd.read_csv("/heart.csv")
-df
-
-df.head(10)
-
-df.target.value_counts()
-
-sns.countplot(x="target", data=df, palette="bwr")
+df = pd.read_csv("/content/heart.csv")
+2.	df.target.value_counts()
+sns.countplot(x="target", data=df, palette="bwr") 
 plt.show()
-
-countNoDisease = len(df[df.target==0])
-countHaveDisease = len(df[df.target==1])
-print("Percentage of Patients Haven't Heart Disease: {:.2f}%".format((countNoDisease/(len(df.target))*100)))
-print("Percentage of Patients Have Heart Disease: {:.2f}%".format((countHaveDisease/(len(df.target))*100)))
-
-sns.countplot(x='sex',data=df,palette="mako_r")
-plt.xlabel("Sex (0=Female, 1=Male)")
+3.	countNoDisease = len(df[df.target == 0]) 
+countHaveDisease = len(df[df.target == 1]) 
+print("Percentage of Patients Haven't Heart Disease: {:.2f}%".format((countNoDisease / (len(df.target))*100))) 
+print("Percentage of Patients Have Heart Disease: {:.2f}%".format((countHaveDisease / (len(df.target))*100)))
+4.	sns.countplot(x='sex', data=df, palette="mako_r") 
+plt.xlabel("Sex (0 = female, 1= male)") 
 plt.show()
-
-countFemale = len(df[df.sex==0])
-countMale = len(df[df.sex==1])
-print("Percentage of Female Patients: {:.2f}%".format((countFemale/(len(df.sex))*100)))
-print("Percentage of Male Patients: {:.2f}%".format((countMale/(len(df.sex))*100)))
-
-df.groupby('target').mean()
-
-pd.crosstab(df.age,df.target).plot(kind="bar",figsize=(20,6))
-plt.title("Heart Disease Frequency for Ages")
-plt.xlabel("Age")
-plt.ylabel("Frequency")
-plt.savefig("HeartDiseasesAndAges.png")
+5.	countFemale = len(df[df.sex == 0]) 
+countMale = len(df[df.sex == 1])
+print("Percentage of Female Patients: {:.2f}%".format((countFemale / (len(df.sex))*100))) 
+print("Percentage of Male Patients: {:.2f}%".format((countMale / (len(df.sex))*100)))
+6.	pd.crosstab(df.age,df.target).plot(kind="bar",figsize=(20,6)) 
+plt.title('Heart Disease Frequency for Ages') 
+plt.xlabel('Age') 
+7.	plt.ylabel('Frequency') 
+plt.savefig('heartDiseaseAndAges.png') 
 plt.show()
-
-pd.crosstab(df.sex,df.target).plot(kind="bar",figsize=(15,6),color=["#1CA53B","#AA1111"])
-plt.title("Heart Disease Frequency for Sex")
-plt.xlabel("Sex( (0=Female, 1=Male)")
-plt.xticks(rotation=0)
-plt.legend(["Haven't Disease","Have Disease"])
-plt.ylabel("Frequency")
+Univariate: These visualizations focus on a single variable, showing its distribution or frequency.
+Bar charts, KDE plots, histograms, and pie charts are examples of univariate visualizations.
+Bar Chart (Categorical Data):
+1.	plt.figure(figsize=(8, 6))
+sns.countplot(x='cp', data=df)
+plt.title('Bar Chart: Chest Pain Types')
+plt.xlabel('Chest Pain Type')
+plt.ylabel('Count')
 plt.show()
+2.	categorical_cols = ['sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'thal', 'target']
 
-plt.scatter(x=df.age[df.target==1], y=df.thalach[(df.target==1)], c="red")
-plt.scatter(x=df.age[df.target==0], y=df.thalach[(df.target==0)])
-plt.legend(["Disease", "Not Disease"])
-plt.xlabel("Age")
-plt.ylabel("Maximum Heart Rate")
+for col in categorical_cols:
+    df[col].value_counts().plot(kind='bar')
+    plt.title(f"{col} Distribution")
+    plt.xlabel(col)
+    plt.ylabel("Count")
+    plt.show()
+
+KDE Plot : A KDE plot visualizes the distribution of a single continuous variable by estimating its probability density function. It uses a smooth curve (kernel density estimate) to represent the density of data points across different values along the x-axis. The y-axis in a KDE plot represents the density or probability.
+sns.kdeplot(data=df, x = 'thalach', shade = True)
 plt.show()
-
-pd.crosstab(df.slope,df.target).plot(kind="bar",figsize=(15,6),color=['#DAF7A6','#FF5733' ])
-plt.title('Heart Disease Frequency for Slope')
-plt.xlabel('The Slope of The Peak Exercise ST Segment ')
-plt.xticks(rotation = 0)
+Histogram (Distribution):
+1.	plt.figure(figsize=(8, 6))
+sns.histplot(x='chol', data=df, bins=20, kde=True)
+plt.title('Histogram: Cholesterol Distribution')
+plt.xlabel('Cholesterol')
 plt.ylabel('Frequency')
 plt.show()
+2.	numerical_cols = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'ca']
+for col in numerical_cols:
+    df[col].hist()
+    plt.title(f"{col} Distribution")
+    plt.xlabel(col)
+    plt.ylabel("Frequency")
+    plt.show()
+Pie Chart (Proportions):
+1.	plt.figure(figsize=(8, 6))
+df['sex'].value_counts().plot(kind='pie', autopct='%1.1f%%', startangle=90, colors=['skyblue', 'salmon'])
 
-pd.crosstab(df.fbs,df.target).plot(kind="bar",figsize=(15,6),color=['#FFC300','#581845' ])
-plt.title('Heart Disease Frequency According To FBS')
-plt.xlabel('FBS - (Fasting Blood Sugar > 120 mg/dl) (1 = true; 0 = false)')
-plt.xticks(rotation = 0)
-plt.legend(["Haven't Disease", "Have Disease"])
-plt.ylabel('Frequency of Disease or Not')
+plt.title('Pie Chart: Gender Proportion')
+plt.ylabel('')
+plt.show()
+Box Plot : 
+Box plots (numerical variables vs. target)
+1.	for col in numerical_cols:
+    sns.boxplot(x="target", y=col, showmeans=True, data=df)
+    plt.title(f"{col} Distribution by Target")
+    plt.xlabel("Target")
+    plt.ylabel(col)
+    plt.show()
+Bivariate : These visualizations explore relationships between two variables.
+Scatter plots and point plots are examples of bivariate visualizations.
+Point Plot:
+1.	plt.figure(figsize=(8, 6))
+sns.pointplot(x='sex', y='chol', data=df)
+plt.title('Point Plot: Cholesterol by Gender')
+plt.xlabel('Gender')
+plt.ylabel('Cholesterol')
+plt.show()
+Scatterplot (Relationships) :
+1.	plt.figure(figsize=(8, 6))
+sns.scatterplot(x='trestbps', y='thalach', hue='target', data=df)
+plt.title('Scatter Plot: Resting BP vs Max Heart Rate')
+plt.xlabel('Resting Blood Pressure')
+plt.ylabel('Max Heart Rate')
+plt.legend(title='Target', loc='upper right')
+plt.show()
+Violin Plot:
+A violin plot is used to visualize the distribution of a quantitative variable or several variables grouped by a categorical variable. It combines a box plot with a kernel density plot.
+1.	plt.figure(figsize=(10, 8))
+sns.violinplot(x='sex', y='age', data=df)
+plt.title('Violin Plot: Age Distribution by Gender')
+plt.xlabel('Gender')
+plt.ylabel('Age')
+plt.show()
+Multivariate : These visualizations display relationships between three or more variables.
+Heat Map : 
+1.	plt.figure(figsize=(10, 8))
+correlation_matrix = df.corr()
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+plt.title('Heatmap: Correlation Matrix')
+plt.show()
+columns_to_plot = ['age', 'thalach', 'oldpeak']
+plt.figure(figsize=(10, 6))  
+for col in columns_to_plot:
+    plt.plot(df['age'], df[col], label=col)
+plt.legend()
 plt.show()
 
-pd.crosstab(df.cp,df.target).plot(kind="bar",figsize=(15,6),color=['#11A5AA','#AA1190' ])
-plt.title('Heart Disease Frequency According To Chest Pain Type')
-plt.xlabel('Chest Pain Type')
-plt.xticks(rotation = 0)
-plt.ylabel('Frequency of Disease or Not')
-plt.show()
