@@ -1,0 +1,64 @@
+1.	import pandas as pd 
+import numpy as np 
+import seaborn as sns 
+import matplotlib.pyplot as plt 
+import random as rd
+2.	df=pd.read_csv("/content/heart.csv")
+df.head()
+df.shape
+df.info()
+ds.isnull().sum()
+df.describe()
+df.dropna()
+df.nunique()
+df.columns
+3.	dr=pd.read_csv("/content/airq.csv", encoding = "ISO=8859-1")
+dr
+dr1 = dr.loc[111:999,['state', 'location', 'so2', 'rspm']]
+dr2=dr.iloc[[1,3,5,4,22,43,54,67,7,8,9,50,10,11]]
+4.	dr_integration = pd.concat([dr1, dr2])
+dr_integration
+5.	dr_integration.transpose()
+6.	dr.drop(columns = "so2")
+dr2.drop(1)
+7.	dr.melt()
+8.	ds_merged=pd.concat([dr,df])
+ds_merged
+9.	df['ca'].unique()
+df.ca.value_counts()
+10.	from sklearn import linear_model, metrics 
+X=df[["age"]] 
+Y=df[["thal"]] 
+from sklearn.model_selection import train_test_split 
+X_train, X_test, Y_train, Y_test=train_test_split(X,Y,test_size=0.2,random_state=1) 
+
+11.	len(X_train)
+len(X_test)
+reg=linear_model.LinearRegression()
+model=reg.fit(X_train,Y_train) 
+r_sq=reg.score(X_train,Y_train) 
+print("determination coefficient:",r_sq)
+print("intercept:",model.intercept_)
+print("slope:",model.coef_)
+12.	Y_pred=model.predict(X_test)
+
+print('predicted response: ',Y_pred,sep='\n')
+13.	plt.scatter(X_train, Y_train, color = 'black')
+plt.plot(X_train, reg.predict(X_train), color = 'blue', linewidth = 3)
+plt.title("Age vs thal")
+plt.xlabel("Age")
+plt.ylabel("thal")
+plt.show()
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, accuracy_score
+X = df[['age', 'sex', 'cp', 'trestbps', 'chol', 'thalach', 'thal']]
+y = df['target']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+print(classification_report(y_test, y_pred))
+predictions = model.predict(input_data)
