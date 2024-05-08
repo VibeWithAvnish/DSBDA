@@ -1,0 +1,28 @@
+-- Create Database if not exists
+CREATE DATABASE IF NOT EXISTS flight_info_system;
+
+-- Use Database
+USE flight_info_system;
+
+-- Create Flight Information Table
+CREATE TABLE IF NOT EXISTS flight_info (
+    flight_id INT,
+    flight_date STRING,
+    departure_time STRING,
+    arrival_time STRING,
+    departure_delay INT,
+    arrival_delay INT
+);
+
+-- Load Data into Flight Information Table
+LOAD DATA LOCAL INPATH '/path/to/flight_data.csv' INTO TABLE flight_info;
+
+-- Create Index on Flight Information Table (Optional)
+CREATE INDEX idx_flight_date ON TABLE flight_info (flight_date) AS 'COMPACT' WITH DEFERRED REBUILD;
+ALTER INDEX idx_flight_date ON flight_info REBUILD;
+
+-- Calculate Average Departure Delay per Day in 2008
+SELECT flight_date, AVG(departure_delay) AS avg_departure_delay
+FROM flight_info
+WHERE year(flight_date) = 2008
+GROUP BY flight_date;
