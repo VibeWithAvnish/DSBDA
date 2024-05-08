@@ -76,37 +76,6 @@ cust_name
 
 title = soup.find_all('a',class_='review-title-content')
 title
-     
-[<a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R3QN7WHCT1NEQA?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>Exceeding my expectation. Go for it.</span>
- </a>,
- <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R30Q0WNRQPM0PW?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>Loved it ❤️</span>
- </a>,
- <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R26S7FGQM0SOKO?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-4 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">4.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>It's visually appealing and upgraded device, surpassing my old iPhone 12</span>
- </a>,
- <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1Z2UDP5DZXS2F?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>Iphone 14</span>
- </a>,
- <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1YGY33MLHE4C7?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>Worthy gift for better half</span>
- </a>,
- <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1U1QE8CCFN4O4?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>Excellent product</span>
- </a>,
- <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1PDHLRJSMAQIF?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-5 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">5.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>Be care full when package received</span>
- </a>,
- <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R1XJEZKH9GYPMR?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-4 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">4.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>Performance is good but battery performance</span>
- </a>,
- <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R30MKJNPTNZN09?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-4 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">4.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>Review</span>
- </a>,
- <a class="a-size-base a-link-normal review-title a-color-base review-title-content a-text-bold" data-hook="review-title" href="/gp/customer-reviews/R2Q3KCLUQ7X3CV?ASIN=B0BDHX8Z63"><i class="a-icon a-icon-star a-star-4 review-rating" data-hook="review-star-rating"><span class="a-icon-alt">4.0 out of 5 stars</span></i><span class="a-letter-space"></span>
- <span>Apple product. That's all</span>
- </a>]
 
 review_title = []
 for i in range(0,len(title)):
@@ -123,3 +92,11 @@ review_title
  '4.0 out of 5 stars\nPerformance is good but battery performance\n',
  '4.0 out of 5 stars\nReview\n',
  "4.0 out of 5 stars\nApple product. That's all\n"]
+
+ratings = soup.find('div', {'class': 'a-fixed-left-grid-col aok-align-center a-col-right'}).get_text();
+print(ratings)
+
+Indi_rating = soup.find_all('div', {'class':'link'})
+for inrate in Indi_rating:
+  print(inrate.get_text()+ "\n")
+
